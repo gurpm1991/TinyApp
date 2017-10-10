@@ -18,9 +18,14 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-app.get("/urls", (req, res) => {
+app.get("/urls", (req, res) => {  //unsure if this line is correct
   let templateVars = { urls: urlDatabase };
   res.render("urls_index.ejs", templateVars);
+});
+
+app.get("/urls/:id", (req, res) => { //unsure if this function is correct
+  let templateVars = { shortURL: req.params.id };
+  res.render("urls_show", templateVars);
 });
 
 app.listen(PORT, () => {
