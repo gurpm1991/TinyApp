@@ -1,17 +1,14 @@
-<!-- views/partials/header.ejs -->
-<head>
-  <title>Page Title</title>
-</head>
-
 <!DOCTYPE html>
-
-
 <html lang="en">
 <head>
   <title>TinyApp</title>
 </head>
 <body>
-    <h1> uwaterloo.ca/applied-health-sciences | uwaterloo.ca/ahs<h1>
+	<%- include ./partials/_header %>
+    <% for (var key in urls) { %>
+    <%= key %> 
+    <%= urls[key].longurl %>
+	<% } %>
     <h1> uwaterloo.ca/applied-health-sciences/fun-run | uwaterloo.ca/ahs/fun-run <h1>
     <a href="url"> link text </a>
 </body>
