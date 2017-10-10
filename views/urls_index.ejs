@@ -4,12 +4,13 @@
   <title>TinyApp</title>
 </head>
 <body>
+	<ul>
 	<%- include ./partials/_header %>
     <% for (var key in urls) { %>
-    <%= key %> 
-    <%= urls[key].longurl %>
+    <li><%= urls[key].longurl %> <a href="<%= key %> "> <%= key %> </a></li> 
+    
 	<% } %>
-    <h1> uwaterloo.ca/applied-health-sciences/fun-run | uwaterloo.ca/ahs/fun-run <h1>
-    <a href="url"> link text </a>
+    
+	</ul>
 </body>
 </html>
