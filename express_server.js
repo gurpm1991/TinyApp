@@ -21,27 +21,33 @@ var urlDatabase = {
 };
 
 app.get("/", (req, res) => {
+  
   res.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
 app.get("/urls.json", (req, res) => {
+  
   res.json(urlDatabase);
 });
 
 app.get("/urls", (req, res) => {  
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { urls: urlDatabase,
+  					   username: req.cookies["username"]};
   res.render("urls_index.ejs", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL]
   let shortURL = req.params.shortURL
+  
   res.redirect(longURL);
 });
 
 app.get("/urls/new", (req, res) => {
+  
   res.render("urls_new");
 });
+
 
 app.post("/urls", (req, res) => {
   let longurl = req.body.longURL;
@@ -53,13 +59,15 @@ app.post("/urls", (req, res) => {
   res.redirect(`http://localhost:8080/urls/${shortURL}`);
 });
 
-app.post("/login",) (req, res) => {
+
+app.post("/login", (req, res) => {
   let username = req.body.username;
   console.log(username);
   res.cookie("username", username);
 
 	res.redirect("http://localhost:8080/urls");
-}
+});
+
 
 app.post("/urls/:id", (req, res) => {
    urlDatabase[req.params.id] = req.body.longURL;
@@ -73,12 +81,12 @@ app.post("/urls/:id/delete", (req, res) => {
 	res.redirect(`http://localhost:8080/urls`);
 })
 
+
 app.get("/urls/:id", (req, res) => { 
   let templateVars = { shortURL: req.params.id,
   					   longurl: urlDatabase[req.params.id] };
   res.render("urls_show", templateVars);
 });
-
 
 
 app.listen(PORT, () => {
