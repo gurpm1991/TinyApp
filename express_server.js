@@ -1,7 +1,10 @@
 var express = require("express");
 var app = express();
+var cookieParser = require('cookie-parser')
 var PORT = process.env.PORT || 8080; // default port 8080
 
+
+app.use(cookieParser())
 app.set("view engine", "ejs");
 
 const bodyParser = require("body-parser");
@@ -50,9 +53,18 @@ app.post("/urls", (req, res) => {
   res.redirect(`http://localhost:8080/urls/${shortURL}`);
 });
 
-app.post("/urls/:id", (req, res) => {
-  
+app.post("/login",) (req, res) => {
+  let username = req.body.username;
+  console.log(username);
+  res.cookie("username", username);
 
+	res.redirect("http://localhost:8080/urls");
+}
+
+app.post("/urls/:id", (req, res) => {
+   urlDatabase[req.params.id] = req.body.longURL;
+   
+   res.redirect("/urls");
 });
 
 
