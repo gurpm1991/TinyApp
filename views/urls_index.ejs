@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
-<body>
-	<ul>
-	<%- include ./partials/_header %>
-    <% for (var key in urls) { %>
-    <li><%= urls[key].longurl %> <a href="<%= key %> "> <%= key %> </a></li> 
-    
-	<% } %>
-    
-	</ul>
-</body>
+<html>
+	<head>
+  		<title>TinyApp</title>
+	</head>
+
+	<body style="font-size:20px; padding:50px;">
+		<%- include ./partials/_header %>
+    	<% for (var key in urls) { %>
+		<form action="/urls/<%= key %>/delete" method="POST" style="margin:15px;">
+      		<label ><%= key %>:</label>
+      		<label ><%= urls[key] %></label>
+      		<input type="submit" value="Delete">
+    	</form>
+		<% } %>   
+	</body>
+
 </html>
+
+
