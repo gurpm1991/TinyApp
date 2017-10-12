@@ -7,6 +7,27 @@ var PORT = process.env.PORT || 8080; // default port 8080
 app.use(cookieParser())
 app.set("view engine", "ejs");
 
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+  "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
+function attemptLogin(useremail, password) {
+  for (let user in users) {
+    if (users[user].email === useremail && users[user].password === password) {
+      return user;
+    }
+  }
+}
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -20,6 +41,50 @@ var urlDatabase = {
   "a35bb2": "http://www.facebook"
 };
 
+app.post("/register", (req, res) => {
+  const username = req.body.username;
+  console.log(username);
+  const password = req.body.password;
+  console.log(password);
+
+
+
+  if (username === "" || password === "") {
+
+  	res.status(400).send("You attempted to log in with invalid credentials")
+  	return;
+  	//failed attempt due to already existing user
+  	// res.render('urls_register', { errorFeedback: 'failed to find a user.'});
+  	// console.log('You attempted to log in with invalid credentials');
+   } else {
+   	for (var k in users) {
+   		console.log(users[k])
+   		if (users[k].email == username) {
+   			res.status(400).send("DUPLICATE!");
+   			return;
+   		}
+ 	 }
+
+ 	 //success
+
+	  let id = generateRandomString();
+
+	  let newUser = {"id": id, "username": username, "password": password};
+
+	  users[id] = newUser;
+
+	  console.log(newUser);
+
+  	  res.cookie('username', newUser.username);
+  	  res.cookie('password', newUser.password);
+  
+	  res.redirect("/urls")
+
+   	}
+  // const user = attemptLogin(username, password);
+
+});
+
 app.get("/", (req, res) => {
   
   res.end("<html><body>Hello <b>World</b></body></html>\n");
@@ -32,7 +97,7 @@ app.get("/urls.json", (req, res) => {
 
 app.get("/urls", (req, res) => {  
   let templateVars = { urls: urlDatabase,
-  					   username: req.cookies["username"]};
+  					   users: users[req.cookies["users_id"]]};
   res.render("urls_index.ejs", templateVars);
 });
 
@@ -47,6 +112,15 @@ app.get("/urls/new", (req, res) => {
   
   res.render("urls_new");
 });
+
+app.get("/register", (req, res) => {
+	let templateVars = { urls: urlDatabase,
+  						users: users[req.cookies["users_id"]]};
+
+
+	res.render("urls_register", templateVars)
+});
+
 
 
 app.post("/urls", (req, res) => {
@@ -89,7 +163,8 @@ app.post("/urls/:id/delete", (req, res) => {
 
 app.get("/urls/:id", (req, res) => { 
   let templateVars = { shortURL: req.params.id,
-  					   longurl: urlDatabase[req.params.id] };
+  					   longurl: urlDatabase[req.params.id] 
+  					   users: users[req.cookies["users_id"]]};
   res.render("urls_show", templateVars);
 });
 
