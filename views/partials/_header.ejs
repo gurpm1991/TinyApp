@@ -1,9 +1,13 @@
 <!-- views/partials/header.ejs -->
-	<a href ='register'>register</p>
-	<a href ='login'>login</p>
+	<% if(user){ %>
+	 	<div>logout <%= user.username %></div>
+	 		<form action="/logout" method="POST">
+	 			<input type="submit" value="logout">
+    		</form>
 
-		
-		
+	 <% } else { %>
 
+		<a href ='http://localhost:8080/register'>register</p>
+		<a href ='http://localhost:8080/login'>login</p>
 
-
+	<% } %>

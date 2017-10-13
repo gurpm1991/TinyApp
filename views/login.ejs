@@ -1,11 +1,12 @@
 <!-- views/partials/header.ejs -->
-	<% if(username){ %>
+	<% if(user){ %>
 		<%- include ./partials/_header %>
 
-	  	<form action="/logout" method="post">
-    		
-    		<label><%= userID %></label>
+	  	<form action="login" method="post">
+    		<label><%= user.username %></label>
     		<input type="submit" value="Logout">
+
+
 		</form>
 
 	 <% } else { %>
