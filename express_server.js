@@ -42,6 +42,7 @@ var urlDatabase = {
 };
 
 app.post("/register", (req, res) => {
+
   const username = req.body.username;
   console.log(username);
   const password = req.body.password;
@@ -56,7 +57,7 @@ app.post("/register", (req, res) => {
   	//failed attempt due to already existing user
   	// res.render('urls_register', { errorFeedback: 'failed to find a user.'});
   	// console.log('You attempted to log in with invalid credentials');
-   } else {
+   }  else {
    	for (var k in users) {
    		console.log(users[k])
    		if (users[k].email == username) {
@@ -75,8 +76,7 @@ app.post("/register", (req, res) => {
 
 	  console.log(newUser);
 
-  	  res.cookie('username', newUser.username);
-  	  res.cookie('password', newUser.password);
+  	  res.cookie('userID', newUser.id);
   
 	  res.redirect("/urls")
 
@@ -85,9 +85,10 @@ app.post("/register", (req, res) => {
 
 });
 
+
 app.get("/", (req, res) => {
   
-  res.end("<html><body>Hello <b>World</b></body></html>\n");
+  res.end("<html><body>TINY<b>APP</b></body></html>\n");
 });
 
 app.get("/urls.json", (req, res) => {
@@ -97,7 +98,8 @@ app.get("/urls.json", (req, res) => {
 
 app.get("/urls", (req, res) => {  
   let templateVars = { urls: urlDatabase,
-  					   users: users[req.cookies["users_id"]]};
+  					   username: users[req.cookies["userID"]]
+  						};
   res.render("urls_index.ejs", templateVars);
 });
 
@@ -115,7 +117,8 @@ app.get("/urls/new", (req, res) => {
 
 app.get("/register", (req, res) => {
 	let templateVars = { urls: urlDatabase,
-  						users: users[req.cookies["users_id"]]};
+  						username: users[req.cookies["userID"]]
+  					};
 
 
 	res.render("urls_register", templateVars)
@@ -134,13 +137,31 @@ app.post("/urls", (req, res) => {
 });
 
 
-app.post("/login", (req, res) => {
-  let username = req.body.username;
-  console.log(username);
-  res.cookie("username", username);
+app.get("/login", (req, res) => {
+	
+	let templateVars = { urls: urlDatabase,
+  						username: users[req.cookies["userID"]]
+  					};
 
-	res.redirect("http://localhost:8080/urls");
+	res.render("login", templateVars);
+
+})
+
+
+app.post("/login", (req, res) => {
+	let username = req.body.username;
+	let password = req.body.password;
+
+	for (var x in users) {
+		if ((users[x].email === username) && (users[x].password === password)){
+			res.redirect("urls");
+		} else {
+			console.log ("error")
+		}
+	}
 });
+
+
 
 app.post("/logout", (req, res) => {
   res.clearCookie('username');
@@ -164,7 +185,7 @@ app.post("/urls/:id/delete", (req, res) => {
 app.get("/urls/:id", (req, res) => { 
   let templateVars = { shortURL: req.params.id,
   					   longurl: urlDatabase[req.params.id] 
-  					   users: users[req.cookies["users_id"]]};
+  					};
   res.render("urls_show", templateVars);
 });
 

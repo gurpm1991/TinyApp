@@ -1,0 +1,22 @@
+<!-- views/partials/header.ejs -->
+	<% if(username){ %>
+		<%- include ./partials/_header %>
+
+	  	<form action="/logout" method="post">
+    		
+    		<label><%= userID %></label>
+    		<input type="submit" value="Logout">
+		</form>
+
+	 <% } else { %>
+
+ 		<form action="/login" method="post">
+    		<label for="username"> Enter name: </label>
+    		<input id="username" type="text" name="username">
+    		<label for="password"> Password: </label>
+    		<input type="password" name="password" />
+    		<input type="submit" value="Submit">
+
+	 <% } %>
+
+		
