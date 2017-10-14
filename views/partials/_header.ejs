@@ -1,13 +1,15 @@
 <!-- views/partials/header.ejs -->
 	<% if(user){ %>
-	 	<div>logout <%= user.username %></div>
-	 		<form action="/logout" method="POST">
-	 			<input type="submit" value="logout">
-    		</form>
+	 	<p><div><strong><%= user.id %></strong></div></p>
+	 		<p><form action="http://localhost:8080" method="POST" </p> </form>
+	 		<p><input type="submit" value="LOGOUT"></p>
 
 	 <% } else { %>
 
-		<a href ='http://localhost:8080/register'>register</p>
-		<a href ='http://localhost:8080/login'>login</p>
-
+	 	<p>
+		<a href ='http://localhost:8080/register'><button type="button">REGISTER</button></a>
+		</p>
+		<p>
+		<a href ='http://localhost:8080/login'><button type="button">LOGIN</button></a>
+		</p>
 	<% } %>
