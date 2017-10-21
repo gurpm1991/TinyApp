@@ -1,20 +1,8 @@
-<!-- views/partials/header.ejs -->
-<body>
-	<strong><a href ='http://localhost:8080/'>Tiny App!</a></strong>
-</body>
-	<% if(user){ %>
-		<%- include ./partials/_header %>
-	<% } else { %>
- 		<form action="/login" method="post">
-    		<label for="email"> Email: </label>
-    		<input id="email" type="text" name="email">
-    		<label for="password"> Password: </label>
-    		<input type="password" name="password" />
-    		<input type="submit" value="Submit">
-    	</form>
-	<% } %>
-	<p>
-		Don't have an account? <a href='http://localhost:8080/register'>Signup</a>
-	</p>
+<form action="/login" method="POST">
+    <h2>Email: </h2>
+        <input type="email" name="email"> 
+    <h2>Password: </h2>
+        <input type="password" name="password">
+        <button>Submit</button>
+</form>
 
-		

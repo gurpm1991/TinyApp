@@ -1,15 +1,10 @@
-<!-- views/partials/header.ejs -->
-	<% if(user){ %>
-	 	<p><div><strong><%= user.id %></strong></div></p>
-	 		<p><form action="http://localhost:8080" method="POST" </p> </form>
-	 		<p><input type="submit" value="LOGOUT"></p>
-
-	 <% } else { %>
-
-	 	<p>
-		<a href ='http://localhost:8080/register'><button type="button">REGISTER</button></a>
-		</p>
-		<p>
-		<a href ='http://localhost:8080/login'><button type="button">LOGIN</button></a>
-		</p>
-	<% } %>
+<% if(user && user.id){ %>
+	<form action="/logout" method="POST"> 
+    	<label>UserID: <%= user.id %> </label>
+    	<button>Logout</button>
+	</form>   
+<% } %>
+	<a href="/register"><button>Register here</button></a>
+<% if(!user){ %>
+	<a href="/login"><button>Login here</button></a>
+<% } %>

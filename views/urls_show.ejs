@@ -1,16 +1,11 @@
-<!-- views/partials/header.ejs -->
-<!DOCTYPE html>
-<html>
-	<head>
-  		<strong><a href ='http://localhost:8080/'>Tiny App!</a></strong>
-	</head>
-	<body>
-		<%- include ./partials/_header %>
-	 	<p><%=shortURL%></p> <p><%=longURL%></p>
-	 	<form action="/urls/<%= shortURL %>" method="POST" style="margin:150px;">
-	    	<label for="longURL">Update your URL:</label>
-	    	<input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-	   		<input type="submit" value="Submit">
-    	</form>
-	</body>
-</html>
+<body>
+  <header>
+    <% include partials/_header %>
+  </header>
+    <form action="/urls/<%= shortURL %>" method="POST" style="margin:150px;">
+      <label for="longURL">Update the URL:</label>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Update">
+    </form>
+  <p> <%= shortURL %> === <%= longURL %> </p>
+</body>
